@@ -1,0 +1,39 @@
+<%!
+  from django.utils.translation import ugettext as _
+  from django.core.urlresolvers import reverse
+%>
+<%namespace name='static' file='/static_content.html'/>
+<%inherit file="/main.html" />
+<%block name="bodyclass">view-сфдутвфк_tab view-in-course course</%block>
+<%block name="pagetitle">${_("Calendar Dashboard")}</%block>
+<%block name="headextra">
+<%static:css group='style-course'/>
+</%block>
+<%include file="/courseware/course_navigation.html" args="active_page='calendar_tab'" />
+
+
+
+<section class="container">
+  <div class="static_tab_wrapper">
+    <p>
+      <a href="${ url }"
+         onclick="window.open('${ url }', 'calendar', 'location,width=1000,height=500,top=0'); return false" >
+        ${ message }
+      </a>
+    </p>
+
+% if is_staff:
+    <hr class="divider">
+    <form action="${reverse('calendar_edit', args=(course.id, ))}" method="post">
+      <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }" />
+      <p><span>${_("Calendar url")}:</span></p>
+      <p><input type="text" name="url" value="${ url }" size="80" /></p>
+      <p><span>${_("Calendar message")}:</span></p>
+      <p><input type="text" name="message" value="${ message }" size="80" /></p>
+      <p><input type="submit" value="${_("Edit")}" /></p>
+    </form>
+% endif
+
+  </div>
+
+</section>
