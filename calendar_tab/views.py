@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.core.context_processors import csrf
 from django.http import Http404
@@ -19,7 +20,7 @@ from courseware.access import has_access
 def calendar_dashboard(request, course_id):
     course_key = CourseKey.from_string(course_id)
     course = get_course_with_access(request.user, "load", course_key)
-    add_lookup('main', '/edx/app/edxapp/edx-platform/calendar_tab/calendar_tab/templates')
+    add_lookup('main', os.path.join(os.path.dirname(os.path.dirname(__file__)), 'calendar_tab/templates'))
     csrf_token = csrf(request)['csrf_token']
     tab = CourseTabList.get_tab_by_id(course.tabs, "calendar_tab")
     is_staff = bool(has_access(request.user, 'staff', course))
