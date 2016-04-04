@@ -34,13 +34,22 @@ class CalendarTab(CourseTab):
         else:
             super(CalendarTab, self).__setitem__(key, value)
 
+    def __eq__(self, other):
+        if not super(CalendarTab, self).__eq__(other):
+            return False
+        return self.data == other.get('data')
+
     @classmethod
     def is_enabled(cls, course, user=None):
         return True
 
     @classmethod
     def validate(cls, tab_dict, raise_error=True):
-        return True
+        """
+        Ensures that the specified tab_dict is valid.
+        """
+        return (super(CalendarTab, cls).validate(tab_dict, raise_error)
+                and 'data' in tab_dict)
 
     def to_json(self):
         """ Return a dictionary representation of this tab. """
