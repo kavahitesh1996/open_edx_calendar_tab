@@ -15,18 +15,13 @@ class CalendarTab(CourseTab):
     data = '{}'
 
     def __init__(self, tab_dict=None):
-        self.data = tab_dict.get('data') if tab_dict else '{}'
-
-        if tab_dict is None:
-            tab_dict = dict()
-
         super(CalendarTab, self).__init__(tab_dict)
+        self.data = tab_dict.get('data', '{}')
 
     def __getitem__(self, key):
         if key == 'data':
             return self.data
-        else:
-            return super(CalendarTab, self).__getitem__(key)
+        return super(CalendarTab, self).__getitem__(key)
 
     def __setitem__(self, key, value):
         if key == 'data':
@@ -34,22 +29,9 @@ class CalendarTab(CourseTab):
         else:
             super(CalendarTab, self).__setitem__(key, value)
 
-    def __eq__(self, other):
-        if not super(CalendarTab, self).__eq__(other):
-            return False
-        return self.data == other.get('data')
-
     @classmethod
     def is_enabled(cls, course, user=None):
         return True
-
-    @classmethod
-    def validate(cls, tab_dict, raise_error=True):
-        """
-        Ensures that the specified tab_dict is valid.
-        """
-        return (super(CalendarTab, cls).validate(tab_dict, raise_error)
-                and 'data' in tab_dict)
 
     def to_json(self):
         """ Return a dictionary representation of this tab. """
