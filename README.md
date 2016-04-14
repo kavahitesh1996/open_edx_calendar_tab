@@ -11,3 +11,5 @@ url(
     name='calendar_endpoints',
 ),
 </pre>
+
+add in `ADDL_INSTALLED_APPS` `'calendar_tab'`
