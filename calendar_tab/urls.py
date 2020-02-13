@@ -1,9 +1,8 @@
-from django.conf.urls import patterns, url
-from django.contrib.auth.decorators import login_required
+from django.conf.urls import url
 
 from .views import calendar_dashboard, calendar_edit
 
-urlpatterns = patterns('',
-    url(r"^$", login_required(calendar_dashboard), name="calendar_dashboard"),
-    url(r"^edit/$", login_required(calendar_edit), name="calendar_edit"),
+urlpatterns = (
+    url(r"^$", calendar_dashboard, name="calendar_dashboard"),
+    url(r"^edit/$", calendar_edit, name="calendar_edit"),
 )

@@ -1,12 +1,12 @@
 import json
 import os
 
-from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
+from django.template.context_processors import csrf
 from django.http import Http404
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _
-
 from edxmako.shortcuts import render_to_response
 from edxmako.paths import add_lookup
 from opaque_keys.edx.keys import CourseKey
@@ -17,6 +17,7 @@ from courseware.courses import get_course_with_access
 from courseware.access import has_access
 
 
+@login_required
 def calendar_dashboard(request, course_id):
     course_key = CourseKey.from_string(course_id)
     course = get_course_with_access(request.user, "load", course_key)
@@ -41,6 +42,7 @@ def calendar_dashboard(request, course_id):
 
 
 @require_POST
+@login_required
 def calendar_edit(request, course_id):
     url = request.POST.get('url', '')
     message = request.POST.get('message', '')
